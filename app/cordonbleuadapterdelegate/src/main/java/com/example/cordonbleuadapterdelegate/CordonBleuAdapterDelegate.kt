@@ -117,13 +117,14 @@ class CordonBleuAdapterDelegate<T> private constructor() :
     }
 
     fun <VB : ViewBinding> viewHolder(
+        viewType: Int = 0,
         @LayoutRes layoutId: Int,
         binder: (View) -> VB,
         onBind: VB.(model: T, position: Int) -> Unit,
         clicks: Array<ViewHolder.ViewHolderClick<T>> = emptyArray(),
         clipChildren: Boolean = true,
     ): CordonBleuAdapterDelegate<T> {
-        mViewHolders[layoutId] =
+        mViewHolders[viewType] =
             ViewHolder(layoutId, binder, onBind, clicks) as ViewHolder<T, ViewBinding>
         return this
     }
