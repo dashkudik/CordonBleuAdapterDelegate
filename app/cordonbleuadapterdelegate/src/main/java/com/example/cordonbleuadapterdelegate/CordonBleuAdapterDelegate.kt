@@ -168,7 +168,7 @@ class CordonBleuAdapterDelegate<T> private constructor() :
         }
     }
 
-    inner class CordonBleuListAdapter(diffUtil: DiffUtil.ItemCallback<T>) :
+    inner class CordonBleuListAdapter internal constructor(diffUtil: DiffUtil.ItemCallback<T>) :
         ListAdapter<T, CordonBleuListAdapter.CordonBleuViewHolder<T>>(diffUtil) {
 
         private val pagingScope = CoroutineScope(IO)
