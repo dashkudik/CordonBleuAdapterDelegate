@@ -203,7 +203,7 @@ class CordonBleuAdapterDelegate<T> private constructor() :
         private fun performPortionLoadingIfNeed(bindingPosition: Int) {
             mPagingConfig?.let {
                 val isPrefetchDistanceExceeded =
-                    itemCount - bindingPosition < it.prefetchDistance
+                    itemCount - bindingPosition <= it.prefetchDistance
                 val hasLoadingAlreadyBeenProceed = lastPortionLoadingJob?.isActive?.equals(false) == false
                 if (isPrefetchDistanceExceeded && isPaginationExhausted.not() && hasLoadingAlreadyBeenProceed.not()) {
                     lastPortionLoadingBlock = lastPortionLoadingBlock@{
