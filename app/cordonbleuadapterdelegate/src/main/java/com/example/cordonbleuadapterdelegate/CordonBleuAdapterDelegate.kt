@@ -17,7 +17,7 @@ import kotlin.reflect.KProperty
 
 @OptIn(ExperimentalStdlibApi::class)
 class CordonBleuAdapterDelegate<T> private constructor() :
-    ReadOnlyProperty<Fragment, CordonBleuAdapterDelegate<T>.SmartStaffListAdapter> {
+    ReadOnlyProperty<Fragment, CordonBleuAdapterDelegate<T>.CordonBleuListAdapter> {
 
     companion object {
         fun <T> cordonBleuAdapter(): CordonBleuAdapterDelegate<T> {
@@ -41,8 +41,8 @@ class CordonBleuAdapterDelegate<T> private constructor() :
      */
     private var mViewHolders: HashMap<Int, ViewHolder<T, ViewBinding>> = HashMap(8, 1f)
 
-    private val mAdapter: SmartStaffListAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        SmartStaffListAdapter(mDiffUtil ?: defaultDiffUtil())
+    private val mAdapter: CordonBleuListAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CordonBleuListAdapter(mDiffUtil ?: defaultDiffUtil())
     }
 
     private var mViewTypeOfPosition: ((Int) -> Int)? = null
@@ -54,7 +54,7 @@ class CordonBleuAdapterDelegate<T> private constructor() :
     override fun getValue(
         thisRef: Fragment,
         property: KProperty<*>
-    ): SmartStaffListAdapter {
+    ): CordonBleuListAdapter {
         return mAdapter
     }
 
@@ -168,8 +168,8 @@ class CordonBleuAdapterDelegate<T> private constructor() :
         }
     }
 
-    inner class SmartStaffListAdapter(diffUtil: DiffUtil.ItemCallback<T>) :
-        ListAdapter<T, SmartStaffListAdapter.SmartStaffListViewHolder<T>>(diffUtil) {
+    inner class CordonBleuListAdapter(diffUtil: DiffUtil.ItemCallback<T>) :
+        ListAdapter<T, CordonBleuListAdapter.CordonBleuViewHolder<T>>(diffUtil) {
 
         private val pagingScope = CoroutineScope(IO)
 
@@ -183,7 +183,7 @@ class CordonBleuAdapterDelegate<T> private constructor() :
             return mViewTypeOfPosition?.invoke(position) ?: super.getItemViewType(position)
         }
 
-        override fun onBindViewHolder(holder: SmartStaffListViewHolder<T>, position: Int) {
+        override fun onBindViewHolder(holder: CordonBleuViewHolder<T>, position: Int) {
             performPortionLoadingIfNeed(holder.bindingAdapterPosition)
             holder.onBind(getItem(position), position)
         }
@@ -191,12 +191,12 @@ class CordonBleuAdapterDelegate<T> private constructor() :
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: Int
-        ): SmartStaffListViewHolder<T> {
+        ): CordonBleuViewHolder<T> {
             val viewHolder: ViewHolder<T, ViewBinding> = mViewHolders[viewType]
                 ?: throw IllegalArgumentException("No ViewHolder found for ViewType $viewType")
             val view =
                 LayoutInflater.from(parent.context).inflate(viewHolder.layoutId, parent, false)
-            return SmartStaffListViewHolder(viewHolder, view)
+            return CordonBleuViewHolder(viewHolder, view)
         }
 
         private fun performPortionLoadingIfNeed(bindingPosition: Int) {
@@ -267,7 +267,7 @@ class CordonBleuAdapterDelegate<T> private constructor() :
             pagingScope.cancel()
         }
 
-        inner class SmartStaffListViewHolder<T>(
+        inner class CordonBleuViewHolder<T>(
             private val viewHolder: ViewHolder<T, ViewBinding>,
             view: View
         ) : RecyclerView.ViewHolder(view) {
